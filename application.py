@@ -74,7 +74,7 @@ def index():
                 attendance = "Absent"
                 return render_template("index.html", password = password, attendance = attendance)
             first_pass = 1
-    passwords = v0.code_generator(6)
+    passwords = code_generator(6)
     password = passwords[0]
     attendance = "Undetermined"
     return render_template("index.html", password = password, attendance = attendance)
