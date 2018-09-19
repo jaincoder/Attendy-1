@@ -32,19 +32,19 @@ Session(app)
 # Configure CS50 Library to use SQLite database
 db = SQL("sqlite:///elo.db")
 
-first_pass = 1
 
+
+@app.route("/", methods=["GET", "POST"])
+@login_required
 
 passwords = code_generator(6)
 password = passwords[0]
 
-@app.route("/", methods=["GET", "POST"])
-@login_required
 def index():
     if request.method == "POST":
         # Ensure username was submitted
-        if True:
-            if True:
+        if request.form.get("code"):
+            if check1(6, 5, user, password) == 1:
                 attendance = "Absent"
                 return render_template("index.html", password = password, attendance = attendance)
             elif check1(6, 5, user, password) == 2:
@@ -55,19 +55,16 @@ def index():
                 password = 0
                 return render_template("index.html", password = password, attendance = attendance)
                 first_pass += 1
-        if first_pass == 2 and request.form.get("code"):
+        if request.form.get("code"):
             user = request.form.get("code")
             if check2(6, 5, user, password):
                 attendance = "Keep Trying"
                 return render_template("index.html", password = password, attendance = attendance)
-                first_pass += 1
             else:
                 attendance = "Absent"
                 return render_template("index.html", password = password, attendance = attendance)
-                first_pass = 1
         if first_pass == 3 and request.form.get("code"):
             user = request.form.get("code")
-            password = passwords[1]
             if check3(6, 5, user, password):
                 attendance = "Present"
                 return render_template("index.html", password = password, attendance = attendance)
@@ -75,7 +72,6 @@ def index():
                 attendance = "Absent"
                 return render_template("index.html", password = password, attendance = attendance)
             first_pass = 1
-    password = password
     attendance = "Undetermined"
     return render_template("index.html", password = password, attendance = attendance)
 
