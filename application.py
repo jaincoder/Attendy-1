@@ -42,8 +42,9 @@ def index():
     if request.method == "POST":
         # Ensure username was submitted
         if True:
-            if check1(6, 5, 332, 333) == 1:
+            if True:
                 attendance = "Absent"
+                password = 3489
                 return render_template("index.html", password = password, attendance = attendance)
             elif check1(6, 5, user, password) == 2:
                 attendance = "Present"
