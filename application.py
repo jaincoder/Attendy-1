@@ -36,26 +36,25 @@ db = SQL("sqlite:///elo.db")
 
 @app.route("/", methods=["GET", "POST"])
 @login_required
-
-passwords = code_generator(6)
-password = passwords[0]
-
 def index():
     if request.method == "POST":
         # Ensure username was submitted
         if request.form.get("code"):
+            user = request.form.get("code")
             if check1(6, 5, user, password) == 1:
+                password = "fqeWrS"
                 attendance = "Absent"
                 return render_template("index.html", password = password, attendance = attendance)
             elif check1(6, 5, user, password) == 2:
+                password = "fqeWrS"
                 attendance = "Present"
                 return render_template("index.html", password = password, attendance = attendance)
             else:
                 attendance = "Keep Trying"
-                password = 0
+                password = "fqeWrS"
                 return render_template("index.html", password = password, attendance = attendance)
-                first_pass += 1
-        if request.form.get("code"):
+                """first_pass += 1
+            if request.form.get("code"):
             user = request.form.get("code")
             if check2(6, 5, user, password):
                 attendance = "Keep Trying"
@@ -71,7 +70,8 @@ def index():
             else:
                 attendance = "Absent"
                 return render_template("index.html", password = password, attendance = attendance)
-            first_pass = 1
+            first_pass = 1"""
+    password = "fqeWrS"
     attendance = "Undetermined"
     return render_template("index.html", password = password, attendance = attendance)
 
