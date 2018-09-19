@@ -33,6 +33,8 @@ Session(app)
 db = SQL("sqlite:///elo.db")
 
 first_pass = 1
+passwords = code_generator(6)
+password = passwords[0]
 
 
 
@@ -44,7 +46,6 @@ def index():
         if True:
             if True:
                 attendance = "Absent"
-                password = 3489
                 return render_template("index.html", password = password, attendance = attendance)
             elif check1(6, 5, user, password) == 2:
                 attendance = "Present"
@@ -74,8 +75,6 @@ def index():
                 attendance = "Absent"
                 return render_template("index.html", password = password, attendance = attendance)
             first_pass = 1
-    passwords = code_generator(6)
-    password = passwords[0]
     attendance = "Undetermined"
     return render_template("index.html", password = password, attendance = attendance)
 
