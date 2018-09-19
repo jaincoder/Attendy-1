@@ -41,17 +41,15 @@ def index():
         # Ensure username was submitted
         if request.form.get("code"):
             user = request.form.get("code")
+            password = "fqeWrS"
             if check1(6, 5, user, password) == 1:
-                password = "fqeWrS"
                 attendance = "Absent"
                 return render_template("index.html", password = password, attendance = attendance)
             elif check1(6, 5, user, password) == 2:
-                password = "fqeWrS"
                 attendance = "Present"
                 return render_template("index.html", password = password, attendance = attendance)
             else:
                 attendance = "Keep Trying"
-                password = "fqeWrS"
                 return render_template("index.html", password = password, attendance = attendance)
                 """first_pass += 1
             if request.form.get("code"):
