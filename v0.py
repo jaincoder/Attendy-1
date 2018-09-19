@@ -20,16 +20,16 @@ def admin(n=3):
     return prefix
 
 n_admin = 2
-
 # 1 = absent, 2 = present, 3 = restart
 def code_generator(length):
     original = admin(n_admin) + ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(length-n_admin))
     restart = admin(n_admin) + ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(length-n_admin))
     return [original, restart]
-
+##print (code_generator(5)[0])
 def check1(n, k, input, c_orig):
     now = time.time()
-    code = code_generator(n)
+    #code = code_generator(n)
+    ##print (code)
     ''' check_code = input("What is the code on the screen? ") '''
     def compare(c_generated, c_input, length):
         matching = 0
@@ -37,59 +37,61 @@ def check1(n, k, input, c_orig):
             if c_generated[i].lower() == c_input[i].lower():
                 matching += 1
         return matching >= length - 2
-    if check_code.lower() == code.lower():
+    if str(input).lower() == str(c_orig).lower():
         end = time.time()
         if round(end-now) < k:
+            ##print ("Success! You have been marked as present.")
             #export(username, email, id, "Present")
             return 2
         else:
+            #print ("The attendance window for", str(datetime.datetime.now().strftime("%x")), "has already closed. It will open next on", future_date(7))
             #export(username, email, id, "Absent")
             return 1
-    elif not compare(code, input, n):
+    elif not compare(str(c_orig), str(input), n):
         return 1
     else:
         return 3
 
-
 def check2(n, k, input, c_orig):
-        print ("Incorrect Code.")
-        if compare(code, check_code, n) and not attempt:
+        #print ("Incorrect Code.")
+        def compare(c_generated, c_input, length):
+            matching = 0
+            for i in range(len(c_generated)):
+                if c_generated[i].lower() == c_input[i].lower():
+                    matching += 1
+            return matching >= length - 2
+        if compare(str(c_orig), str(input), n) and not attempt:
             ''' check_code = input("What were the first and last digit of the code? ") '''
-            if input.lower() == code[0].lower() + code[-1].lower():
-                print ("Verified. Generating new code and restarting attendance tracker.")
+            if input.lower() == c_orig[0].lower() + c_orig[-1].lower():
+                #print ("Verified. Generating new code and restarting attendance tracker.")
                 return True
             else:
-                print ("Too many failed attempts. You have been marked absent.")
+                #print ("Too many failed attempts. You have been marked absent.")
                 #export(username, email, id, "Absent")
                 return False
         else:
-            print ("Too many failed attempts. You have been marked absent.")
+            #print ("Too many failed attempts. You have been marked absent.")
             #export(username, email, id, "Absent")
             return False
 
 def check3(n, k, input, c_restart):
     now = time.time()
-    code = code_generator(n)
-    print (code)
+    #code = code_generator(n)
+    #print (code)
     ''' check_code = input("What is the code on the screen? ") '''
-    def compare(c_generated, c_input, length):
-        matching = 0
-        for i in range(len(c_generated)):
-            if c_generated[i].lower() == c_input[i].lower():
-                matching += 1
-        return matching >= length - 2
-    if check_code.lower() == code.lower():
+    if str(input).lower() == str(c_restart).lower():
         end = time.time()
         if round(end-now) < k:
-            print ("Success! You have been marked as present.")
+            #print ("Success! You have been marked as present.")
             #export(username, email, id, "Present")
             return True
         else:
-            print ("The attendance window for", str(datetime.datetime.now().strftime("%x")), "has already closed. It will open next on", future_date(7))
+            #print ("The attendance window for", str(datetime.datetime.now().strftime("%x")), "has already closed. It will open next on", future_date(7))
             #export(username, email, id, "Absent")
             return False
     else:
         return False
+#print (check3(5, 5, 2331, 412J))
 
 
 def future_date(p):
@@ -97,9 +99,6 @@ def future_date(p):
     diff = datetime.timedelta(days=p)
     future = today + diff
     return future.strftime("%m/%d/%Y")
-
-
-
 
 
 
@@ -136,7 +135,7 @@ fields = ('Annual Rate', 'Number of Payments', 'Loan Principle', 'Monthly Paymen
 def monthly_payment(entries):
    # period rate:
    r = (float(entries['Annual Rate'].get()) / 100) / 12
-   print("r", r)
+   #print("r", r)
    # principal loan:
    loan = float(entries['Loan Principle'].get())
    n =  float(entries['Number of Payments'].get())
@@ -146,12 +145,12 @@ def monthly_payment(entries):
    monthly = ("%8.2f" % monthly).strip()
    entries['Monthly Payment'].delete(0,END)
    entries['Monthly Payment'].insert(0, monthly )
-   print("Monthly Payment: %f" % float(monthly))
+   #print("Monthly Payment: %f" % float(monthly))
 
 def final_balance(entries):
    # period rate:
    r = (float(entries['Annual Rate'].get()) / 100) / 12
-   print("r", r)
+   #print("r", r)
    # principal loan:
    loan = float(entries['Loan Principle'].get())
    n =  float(entries['Number of Payments'].get())
@@ -162,7 +161,7 @@ def final_balance(entries):
    remaining = ("%8.2f" % remaining).strip()
    entries['Remaining Loan'].delete(0,END)
    entries['Remaining Loan'].insert(0, remaining )
-   print("Remaining Loan: %f" % float(remaining))
+   #print("Remaining Loan: %f" % float(remaining))
 
 def makeform(root, fields):
    entries = {}
