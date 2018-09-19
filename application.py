@@ -33,10 +33,10 @@ Session(app)
 db = SQL("sqlite:///elo.db")
 
 first_pass = 1
+
+
 passwords = code_generator(6)
 password = passwords[0]
-
-
 
 @app.route("/", methods=["GET", "POST"])
 @login_required
@@ -75,6 +75,7 @@ def index():
                 attendance = "Absent"
                 return render_template("index.html", password = password, attendance = attendance)
             first_pass = 1
+    password = password
     attendance = "Undetermined"
     return render_template("index.html", password = password, attendance = attendance)
 
