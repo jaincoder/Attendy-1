@@ -6,9 +6,10 @@ from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions
 from werkzeug.security import check_password_hash, generate_password_hash
 import os 
+import v0
+
 
 from helpers import apology, login_required
-
 
 # Configure application
 app = Flask(__name__)
@@ -31,14 +32,53 @@ Session(app)
 # Configure CS50 Library to use SQLite database
 db = SQL("sqlite:///elo.db")
 
+first_pass = 1
+passwords = code_generator(6)
+password = passwords[0]
 
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 @login_required
 def index():
+    if first_pass == 1:
+        passwords = code_generator(6)
+        password = passwords[0]
 
-    information = []
+    if request.method == "POST":
+        # Ensure username was submitted
+        if first_pass == 1 and request.form.get("code"):
+            user = request.form.get("code")
+            if check1(6, 5, user, password) == 1:
+                attendance = "Absent"
+                return render_template("index.html", password = password, attendance = attendance)
+            elif check1(6, 5, user, password) == 2:
+                attendance = "Present"
+                return render_template("index.html", password = password, attendance = attendance)
+            else:
+                attendance = "Keep Trying"
+                password = 0
+                return render_template("index.html", password = password, attendance = attendance)
+                first_pass += 1
+        if first_pass == 2 and request.form.get("code"):
+            user = request.form.get("code")
+            if check2(6, 5, user, password):
+                attendance = "Keep Trying"
+                return render_template("index.html", password = password, attendance = attendance)
+                first_pass += 1
+            else:
+                attendance = "Absent"
+                return render_template("index.html", password = password, attendance = attendance)
+                first_pass = 1
+        if first_pass == 3 and request.form.get("code"):
+            user = request.form.get("code")
+            password = passwords[1]
+            if check3(6, 5, user, password):
+                attendance = "Present"
+                return render_template("index.html", password = password, attendance = attendance)
+            else:
+                attendance = "Absent"
+                return render_template("index.html", password = password, attendance = attendance)
+            first_pass = 1
 
-    return render_template("index.html", information = information)
 
 
 
