@@ -30,7 +30,6 @@ def code_generator(length):
 def check1(n, k, input, c_orig):
     now = time.time()
     code = code_generator(n)
-    print (code)
     ''' check_code = input("What is the code on the screen? ") '''
     def compare(c_generated, c_input, length):
         matching = 0
@@ -41,11 +40,9 @@ def check1(n, k, input, c_orig):
     if check_code.lower() == code.lower():
         end = time.time()
         if round(end-now) < k:
-            print ("Success! You have been marked as present.")
             #export(username, email, id, "Present")
             return 2
         else:
-            print ("The attendance window for", str(datetime.datetime.now().strftime("%x")), "has already closed. It will open next on", future_date(7))
             #export(username, email, id, "Absent")
             return 1
     elif not compare(code, input, n):
