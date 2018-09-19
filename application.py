@@ -41,9 +41,8 @@ first_pass = 1
 def index():
     if request.method == "POST":
         # Ensure username was submitted
-        if request.form.get("code"):
-            user = request.form.get("code")
-            if check1(6, 5, user, password) == 1:
+        if True:
+            if check1(6, 5, 332, 333) == 1:
                 attendance = "Absent"
                 return render_template("index.html", password = password, attendance = attendance)
             elif check1(6, 5, user, password) == 2:
