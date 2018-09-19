@@ -25,6 +25,8 @@ def code_generator(length):
     original = admin(n_admin) + ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(length-n_admin))
     restart = admin(n_admin) + ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(length-n_admin))
     return [original, restart]
+
+
 ##print (code_generator(5)[0])
 def check1(n, k, input, c_orig):
     now = time.time()
