@@ -6,7 +6,7 @@ from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions
 from werkzeug.security import check_password_hash, generate_password_hash
 import os 
-import v0
+from v0 import *
 
 
 from helpers import apology, login_required
