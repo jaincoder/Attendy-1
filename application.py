@@ -39,10 +39,6 @@ password = passwords[0]
 @app.route("/", methods=["GET", "POST"])
 @login_required
 def index():
-    if first_pass == 1:
-        passwords = code_generator(6)
-        password = passwords[0]
-
     if request.method == "POST":
         # Ensure username was submitted
         if first_pass == 1 and request.form.get("code"):
@@ -78,6 +74,10 @@ def index():
                 attendance = "Absent"
                 return render_template("index.html", password = password, attendance = attendance)
             first_pass = 1
+        if first_pass == 1:
+            passwords = code_generator(6)
+            password = passwords[0]
+    return render_template("index.html", password = password, attendance = attendance)
 
 
 
