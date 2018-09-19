@@ -32,9 +32,9 @@ Session(app)
 # Configure CS50 Library to use SQLite database
 db = SQL("sqlite:///elo.db")
 
-"""first_pass = 1
+first_pass = 1
 passwords = code_generator(6)
-password = passwords[0]"""
+password = passwords[0]
 
 @app.route("/", methods=["GET", "POST"])
 @login_required
