@@ -43,8 +43,10 @@ def index():
         # Ensure username was submitted
         if first_pass == 1 and request.form.get("code"):
             user = request.form.get("code")
+            print(user)
             if check1(6, 5, user, password) == 1:
                 attendance = "Absent"
+                print(password, attendance)
                 return render_template("index.html", password = password, attendance = attendance)
             elif check1(6, 5, user, password) == 2:
                 attendance = "Present"
