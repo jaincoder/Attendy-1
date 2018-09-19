@@ -34,7 +34,7 @@ db = SQL("sqlite:///elo.db")
 
 first_pass = 1
 if first_pass == 1:
-    passwords = code_generator(6)
+    passwords = v0.code_generator(6)
     password = passwords[0]
 
 @app.route("/", methods=["GET", "POST"])
