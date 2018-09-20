@@ -47,6 +47,7 @@ def index():
             time_started = db.execute("SELECT Time FROM ':i - Attendance' WHERE ID = :z", z = 1, i = session["user_id"])
             time_sent = calendar.timegm(time.gmtime())
             password = password[0]["Password"]
+            time_started = time_started[0]["Time"]
             if check1(6, 5, user, password) == 1:
                 attendance = "Absent"
                 return render_template("index.html", password = password, attendance = attendance)
