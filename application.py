@@ -79,9 +79,10 @@ def index():
                 attendance = "Absent"
                 return render_template("index.html", password = password, attendance = attendance)
             first_pass = 1"""
-    passwords = code_generator(6)
+    """passwords = code_generator(6)
     password = passwords[0]
-    db.execute("UPDATE ':i - Attendance' SET Password = :p WHERE ID = :t", i = session["user_id"], p = passwords[0], t = 1)
+    db.execute("UPDATE ':i - Attendance' SET Password = :p WHERE ID = :t", i = session["user_id"], p = passwords[0], t = 1)"""
+    password = "Fwdfal"
     attendance = "Undetermined"
     return render_template("index.html", password = password, attendance = attendance)
 
