@@ -41,7 +41,7 @@ def index():
     if request.method == "POST":
         now = time.time()
         # Ensure username was submitted
-        if True:
+        if request.form.get("code"):
             user = request.form.get("code")
             password = "fqeWrS"
             if check1(6, 5, user, password) == 1:
