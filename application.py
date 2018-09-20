@@ -84,8 +84,8 @@ def index():
     passwords = code_generator(6, 3)
     password = passwords[0]
     db.execute("UPDATE ':i - Attendance' SET Password = :p WHERE ID = :z", i = session["user_id"], p = password, z = 1)
-    """now = calendar.timegm(time.gmtime())
-    db.execute("UPDATE ':i - Attendance' SET Time = :t WHERE ID = :z", i = session["user_id"], p = password, t = now)"""
+    now = calendar.timegm(time.gmtime())
+    db.execute("UPDATE ':i - Attendance' SET Time = :t WHERE ID = :z", i = session["user_id"], z = 1, t = now)
     attendance = "Undetermined"
     return render_template("index.html", password = password, attendance = attendance)
 
