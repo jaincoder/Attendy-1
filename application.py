@@ -44,7 +44,7 @@ def index():
         if request.form.get("code"):
             user = request.form.get("code")
             password = db.execute("SELECT Password FROM ':i - Attendance' WHERE ID = :t", t = 1, i = session["user_id"])
-            password = password["Password"]
+            password = password[0]["Password"]
             if check1(6, 5, user, password) == 1:
                 attendance = "Absent"
                 return render_template("index.html", password = password, attendance = attendance)
