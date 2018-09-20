@@ -43,7 +43,7 @@ def index():
         # Ensure username was submitted
         if request.form.get("code"):
             user = request.form.get("code")
-            password = db.execute("SELECT Password FROM ':i - Attendance' WHERE ID = :t", t = 1, i = session["user_id"])
+            password["Password"] = db.execute("SELECT Password FROM ':i - Attendance' WHERE ID = :t", t = 1, i = session["user_id"])
             if check1(6, 5, user, password) == 1:
                 attendance = "Absent"
                 return render_template("index.html", password = password, attendance = attendance)
@@ -79,7 +79,7 @@ def index():
                 attendance = "Absent"
                 return render_template("index.html", password = password, attendance = attendance)
             first_pass = 1"""
-    passwords = code_generator(6)
+    passwords = code_generator(6, 3)
     password = passwords[0]
     db.execute("UPDATE ':i - Attendance' SET Password = :p WHERE ID = :t", i = session["user_id"], p = password, t = 1)
     attendance = "Undetermined"
