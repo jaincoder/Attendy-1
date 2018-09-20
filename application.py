@@ -51,7 +51,7 @@ def index():
                 attendance = "Absent"
                 return render_template("index.html", password = password, attendance = attendance)
             elif check1(6, 5, user, password) == 2:
-                if round(time_sent - time_started) < 5:
+                if round(int(time_sent) - int(time_started)) < 5:
                     attendance = "Present"
                 else:
                     attendance = "Absent"
