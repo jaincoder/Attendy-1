@@ -58,7 +58,10 @@ def index():
                     attendance = "Absent"
                 return render_template("index.html", password = password, attendance = attendance)
             else:
-                attendance = "Keep Trying"
+                if round(int(time_sent) - int(time_started)) < 5:
+                    attendance = "Keep Trying"
+                else:
+                    attendance = "Absent"
                 return render_template("index.html", password = password, attendance = attendance)
                 """first_pass += 1
             if request.form.get("code"):
