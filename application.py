@@ -7,6 +7,7 @@ from werkzeug.exceptions import default_exceptions
 from werkzeug.security import check_password_hash, generate_password_hash
 import os 
 import time
+import calendar
 from v0 import *
 
 
@@ -39,18 +40,18 @@ db = SQL("sqlite:///elo.db")
 @login_required
 def index():
     if request.method == "POST":
-        now = time.time()
         # Ensure username was submitted
         if request.form.get("code"):
             user = request.form.get("code")
-            password = db.execute("SELECT Password FROM ':i - Attendance' WHERE ID = :t", t = 1, i = session["user_id"])
+            password = db.execute("SELECT Password FROM ':i - Attendance' WHERE ID = :z", z = 1, i = session["user_id"])
+            time_started = db.execute("SELECT Time FROM ':i - Attendance' WHERE ID = :z", z = 1, i = session["user_id"])
+            time_sent = calendar.timegm(time.gmtime())
             password = password[0]["Password"]
             if check1(6, 5, user, password) == 1:
                 attendance = "Absent"
                 return render_template("index.html", password = password, attendance = attendance)
             elif check1(6, 5, user, password) == 2:
-                end = time.time()
-                if round(end - now) < 5:
+                if round(end - time_sent) < 5:
                     attendance = "Present"
                 else:
                     attendance = "Absent"
@@ -82,7 +83,9 @@ def index():
             first_pass = 1"""
     passwords = code_generator(6, 3)
     password = passwords[0]
-    db.execute("UPDATE ':i - Attendance' SET Password = :p WHERE ID = :t", i = session["user_id"], p = password, t = 1)
+    db.execute("UPDATE ':i - Attendance' SET Password = :p WHERE ID = :z", i = session["user_id"], p = password, z = 1)
+    now = calendar.timegm(time.gmtime())
+    db.execute("UPDATE ':i - Attendance' SET Time = :t WHERE ID = :z", i = session["user_id"], p = password, t = now)
     attendance = "Undetermined"
     return render_template("index.html", password = password, attendance = attendance)
 
@@ -168,8 +171,8 @@ def register():
             return apology("Sorry, but that username is taken", 403)
 
         id = db.execute("SELECT id FROM users WHERE username = :u", u = request.form.get("username"))
-        db.execute("CREATE TABLE ':i - Attendance' ('ID' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 'Password' TEXT NOT NULL)", i = id[0]["id"])
-        db.execute("INSERT INTO ':i - Attendance' (Password) VALUES (:p)", i = id[0]["id"], p = "initial")
+        db.execute("CREATE TABLE ':i - Attendance' ('ID' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 'Password' TEXT NOT NULL, 'Time' NUMERIC NOT NULL)", i = id[0]["id"])
+        db.execute("INSERT INTO ':i - Attendance' (Password, Time) VALUES (:p, :t)", i = id[0]["id"], p = "initial", t = 0)
 
 
         session["user_id"] = id[0]["id"]
