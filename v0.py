@@ -40,7 +40,7 @@ def compare(c_orig, c_input, length):
             if c_orig[i].lower() == c_input[i].lower():
                 matching += 1
     else:
-        return 1
+        return 100
     return matching >= length - 2
 
 def check1(n, k, input, c_orig):
@@ -52,7 +52,7 @@ def check1(n, k, input, c_orig):
             return 2
         else:
             return 1
-    elif not compare(c_orig, input, n) or compare(c_orig, input, n) == 1:
+    elif not compare(c_orig, input, n) or compare(c_orig, input, n) == 100:
         return 1
     else:
         return 3
