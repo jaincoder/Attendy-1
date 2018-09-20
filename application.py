@@ -37,7 +37,7 @@ db = SQL("sqlite:///elo.db")
 @app.route("/", methods=["GET", "POST"])
 @login_required
 def index():
-    if True:
+    if request.method == "POST":
         # Ensure username was submitted
         if True:
             user = request.form.get("code")
