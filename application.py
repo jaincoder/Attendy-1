@@ -42,7 +42,7 @@ def index():
         if True:
             user = request.form.get("code")
             password = "fqeWrS"
-            if check1(6, 5, user, password) == 1:
+            if True:
                 attendance = "Absent"
                 return render_template("index.html", password = password, attendance = attendance)
             elif check1(6, 5, user, password) == 2:
