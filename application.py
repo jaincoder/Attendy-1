@@ -44,15 +44,15 @@ def index():
         if request.form.get("code"):
             user = request.form.get("code")
             password = db.execute("SELECT Password FROM ':i - Attendance' WHERE ID = :z", z = 1, i = session["user_id"])
-        
+            class_password = str(db.execute("SELECT Password FROM 'Admin' WHERE ID = :z", z = 1)[0]["Password"])
             time_started = db.execute("SELECT Time FROM ':i - Attendance' WHERE ID = :z", z = 1, i = session["user_id"])
             time_sent = calendar.timegm(time.gmtime())
-            password = password[0]["Password"]
+            password = str(password[0]["Password"])
             time_started = time_started[0]["Time"]
-            if check1(6, 10, user, password) == 1:
+            if check1(6, 10, user, class_password + password) == 1:
                 attendance = "Absent"
                 return render_template("index.html", password = password, attendance = attendance)
-            elif check1(6, 10, user, password) == 2:
+            elif check1(6, 10, user, class_password + password) == 2:
                 if round(int(time_sent) - int(time_started)) < 5:
                     attendance = "Present"
                 else:
@@ -86,7 +86,7 @@ def index():
                 attendance = "Absent"
                 return render_template("index.html", password = password, attendance = attendance)
             first_pass = 1"""
-    passwords = code_generator(6, 3)
+    passwords = code_generator(3, 0)
     password = passwords[0]
     db.execute("UPDATE ':i - Attendance' SET Password = :p WHERE ID = :z", i = session["user_id"], p = password, z = 1)
     now = calendar.timegm(time.gmtime())
