@@ -102,9 +102,9 @@ def admin():
         if request.form.get("code"):
             class_password = request.form.get("code")
             password = db.execute("SELECT Password FROM ':i - Attendance' WHERE ID = :z", z = 1, i = session["user_id"])
-            db.execute("UPDATE ':i - Attendance' SET Password = :p WHERE ID = :z", i = session["user_id"], p = class_password, z = 1)
+            db.execute("UPDATE 'Admin' SET Password = :p WHERE ID = :z", p = class_password, z = 1)
             now = calendar.timegm(time.gmtime())
-            db.execute("UPDATE ':i - Attendance' SET Time = :t WHERE ID = :z", i = session["user_id"], z = 1, t = now)
+            db.execute("UPDATE 'Admin' SET Time = :t WHERE ID = :z", z = 1, t = now)
             test = class_password
         return render_template("admin.html", test = test)  
     test = "test"
@@ -193,8 +193,12 @@ def register():
             return apology("Sorry, but that username is taken", 403)
 
         id = db.execute("SELECT id FROM users WHERE username = :u", u = request.form.get("username"))
-        db.execute("CREATE TABLE ':i - Attendance' ('ID' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 'Password' TEXT NOT NULL, 'Time' NUMERIC NOT NULL)", i = id[0]["id"])
-        db.execute("INSERT INTO ':i - Attendance' (Password, Time) VALUES (:p, :t)", i = id[0]["id"], p = "initial", t = 0)
+        if request.form.get("username") == "admin":
+            db.execute("CREATE TABLE 'Admin' ('ID' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 'Password' TEXT NOT NULL, 'Time' NUMERIC NOT NULL)")
+            db.execute("INSERT INTO 'Admin' (Password, Time) VALUES (:p, :t)", p = "initial", t = 0)
+        else:
+            db.execute("CREATE TABLE ':i - Attendance' ('ID' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 'Password' TEXT NOT NULL, 'Time' NUMERIC NOT NULL)", i = id[0]["id"])
+            db.execute("INSERT INTO ':i - Attendance' (Password, Time) VALUES (:p, :t)", i = id[0]["id"], p = "initial", t = 0)
 
 
         session["user_id"] = id[0]["id"]
