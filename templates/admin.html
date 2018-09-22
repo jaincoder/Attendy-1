@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Admin
+{% endblock %}
+
+{% block main %}
+
+	{{password}}
+	{{attendance}}
+
+    <form action="/admin" method="post">
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" name="code" placeholder="code" type="text"/>
+        </div>
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </form>
+    <script src = "../static/myScript.js"></script>
+{% endblock %}
