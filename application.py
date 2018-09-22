@@ -87,7 +87,7 @@ def index():
                 attendance = "Absent"
                 return render_template("index.html", password = password, attendance = attendance)
             first_pass = 1"""
-    passwords = code_generator(3, 0)
+    passwords = code_generator(3)
     password = passwords[0]
     db.execute("UPDATE ':i - Attendance' SET Password = :p WHERE ID = :z", i = session["user_id"], p = password, z = 1)
     now = calendar.timegm(time.gmtime())
