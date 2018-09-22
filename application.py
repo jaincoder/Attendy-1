@@ -49,21 +49,22 @@ def index():
             time_sent = calendar.timegm(time.gmtime())
             password = str(password[0]["Password"])
             time_started = time_started[0]["Time"]
-            if check1(6, 10, user, class_password + password) == 1:
+            display = class_password + password
+            if check1(6, 10, user, display) == 1:
                 attendance = "Absent"
-                return render_template("index.html", password = password, attendance = attendance)
-            elif check1(6, 10, user, class_password + password) == 2:
+                return render_template("index.html", password = display, attendance = attendance)
+            elif check1(6, 10, user, display) == 2:
                 if round(int(time_sent) - int(time_started)) < 5:
                     attendance = "Present"
                 else:
                     attendance = "Absent"
-                return render_template("index.html", password = password, attendance = attendance)
+                return render_template("index.html", password = display, attendance = attendance)
             else:
                 if round(int(time_sent) - int(time_started)) < 5:
                     attendance = "Keep Trying"
                 else:
                     attendance = "Absent"
-                return render_template("index.html", password = password, attendance = attendance)
+                return render_template("index.html", password = display, attendance = attendance)
                 """first_pass += 1
             if request.form.get("code"):
             user = request.form.get("code")
