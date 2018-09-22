@@ -188,8 +188,7 @@ def register():
 
 
         session["user_id"] = id[0]["id"]
-        if rows[0]["username"] == 'admin':
-            return redirect("/admin")
+
         # Redirect user to home page
         flash('Registered!')
         return redirect("/")
