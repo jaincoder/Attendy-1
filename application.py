@@ -130,7 +130,7 @@ def login():
         session["user_id"] = rows[0]["id"]
 
         # Redirect user to home page
-        if session["user_id"] == 'admin':
+        if rows[0]["id"]["username"] == 'admin':
             return redirect("/admin")
 
         else:
@@ -188,7 +188,8 @@ def register():
 
 
         session["user_id"] = id[0]["id"]
-
+        if rows[0]["id"]["username"] == 'admin':
+            return redirect("/admin")
         # Redirect user to home page
         flash('Registered!')
         return redirect("/")
