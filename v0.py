@@ -23,14 +23,9 @@ def export(username, status):
     writer = csv.writer(open('attendance.csv', 'wt', newline=''))
     writer.writerows(lines)
 
-def admin(n=3):
-    prefix = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(n))
-    return prefix
-
-def code_generator(length, n_admin):
-    original = admin(n_admin) + ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(length-n_admin))
-    restart = admin(n_admin) + ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(length-n_admin))
-    return [original, restart]
+def code_generator(length):
+    code = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(length))
+    return code
 
 # 1 = absent, 2 = present, 3 = restart [logic for functions compare, check1, check2, check3]
 def compare(c_orig, c_input, length):
