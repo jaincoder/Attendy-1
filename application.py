@@ -48,10 +48,10 @@ def index():
             time_sent = calendar.timegm(time.gmtime())
             password = password[0]["Password"]
             time_started = time_started[0]["Time"]
-            if check1(6, 5, user, password) == 1:
+            if check1(6, 10, user, password) == 1:
                 attendance = "Absent"
                 return render_template("index.html", password = password, attendance = attendance)
-            elif check1(6, 5, user, password) == 2:
+            elif check1(6, 10, user, password) == 2:
                 if round(int(time_sent) - int(time_started)) < 5:
                     attendance = "Present"
                 else:
@@ -94,7 +94,11 @@ def index():
     return render_template("index.html", password = password, attendance = attendance)
 
 
+@app.route("/admin", methods=["GET", "POST"])
+@login_required
+def admin():
 
+    return render_template("admin.html")
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -126,7 +130,11 @@ def login():
         session["user_id"] = rows[0]["id"]
 
         # Redirect user to home page
-        return redirect("/")
+        if session["user_id"] == 'admin':
+            return redirect("/admin")
+
+        else:
+            return redirect("/")
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
