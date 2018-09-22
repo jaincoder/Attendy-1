@@ -97,8 +97,18 @@ def index():
 @app.route("/admin", methods=["GET", "POST"])
 @login_required
 def admin():
-
-    return render_template("admin.html")
+    if request.method == "POST":
+        # Ensure username was submitted
+        if request.form.get("code"):
+            class_password = request.form.get("code")
+            password = db.execute("SELECT Password FROM ':i - Attendance' WHERE ID = :z", z = 1, i = session["user_id"])
+            db.execute("UPDATE ':i - Attendance' SET Password = :p WHERE ID = :z", i = session["user_id"], p = class_password, z = 1)
+            now = calendar.timegm(time.gmtime())
+            db.execute("UPDATE ':i - Attendance' SET Time = :t WHERE ID = :z", i = session["user_id"], z = 1, t = now)
+            test = class_password
+        return render_template("admin.html", test = test)  
+    test = "test"
+    return render_template("admin.html", test = test)
 
 
 @app.route("/login", methods=["GET", "POST"])
