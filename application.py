@@ -92,6 +92,8 @@ def index():
     now = calendar.timegm(time.gmtime())
     db.execute("UPDATE ':i - Attendance' SET Time = :t WHERE ID = :z", i = session["user_id"], z = 1, t = now)
     attendance = "Undetermined"
+    class_password = str(db.execute("SELECT Password FROM 'Admin' WHERE ID = :z", z = 1)[0]["Password"])
+    password = str(class_password) + str(password)
     return render_template("index.html", password = password, attendance = attendance)
 
 
