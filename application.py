@@ -44,6 +44,7 @@ def index():
         if request.form.get("code"):
             user = request.form.get("code")
             password = db.execute("SELECT Password FROM ':i - Attendance' WHERE ID = :z", z = 1, i = session["user_id"])
+        
             time_started = db.execute("SELECT Time FROM ':i - Attendance' WHERE ID = :z", z = 1, i = session["user_id"])
             time_sent = calendar.timegm(time.gmtime())
             password = password[0]["Password"]
@@ -104,7 +105,7 @@ def admin():
             db.execute("UPDATE 'Admin' SET Password = :p WHERE ID = :z", p = class_password, z = 1)
             now = calendar.timegm(time.gmtime())
             db.execute("UPDATE 'Admin' SET Time = :t WHERE ID = :z", z = 1, t = now)
-            test = class_password
+            test = db.execute("SELECT Password FROM 'Admin' WHERE ID = :z", z = 1)[0]["Password"]
         return render_template("admin.html", test = test)  
     test = "test"
     return render_template("admin.html", test = test)
