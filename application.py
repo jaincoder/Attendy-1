@@ -101,7 +101,6 @@ def admin():
         # Ensure username was submitted
         if request.form.get("code"):
             class_password = request.form.get("code")
-            password = db.execute("SELECT Password FROM ':i - Attendance' WHERE ID = :z", z = 1, i = session["user_id"])
             db.execute("UPDATE 'Admin' SET Password = :p WHERE ID = :z", p = class_password, z = 1)
             now = calendar.timegm(time.gmtime())
             db.execute("UPDATE 'Admin' SET Time = :t WHERE ID = :z", z = 1, t = now)
