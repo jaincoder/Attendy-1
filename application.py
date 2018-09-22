@@ -196,6 +196,8 @@ def register():
         if request.form.get("username") == "admin":
             db.execute("CREATE TABLE 'Admin' ('ID' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 'Password' TEXT NOT NULL, 'Time' NUMERIC NOT NULL)")
             db.execute("INSERT INTO 'Admin' (Password, Time) VALUES (:p, :t)", p = "initial", t = 0)
+            session["user_id"] = id[0]["id"]
+            return redirect("/admin")
         else:
             db.execute("CREATE TABLE ':i - Attendance' ('ID' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 'Password' TEXT NOT NULL, 'Time' NUMERIC NOT NULL)", i = id[0]["id"])
             db.execute("INSERT INTO ':i - Attendance' (Password, Time) VALUES (:p, :t)", i = id[0]["id"], p = "initial", t = 0)
