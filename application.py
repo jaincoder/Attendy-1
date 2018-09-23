@@ -47,6 +47,7 @@ def index():
             class_password = str(db.execute("SELECT Password FROM 'Admin' WHERE ID = :z", z = 1)[0]["Password"])
             time_started = db.execute("SELECT Time FROM ':i - Attendance' WHERE ID = :z", z = 1, i = session["user_id"])
             time_sent = calendar.timegm(time.gmtime())
+            class_time = db.execute("SELECT Time FROM 'Admin' WHERE ID = :z", z = 1)[0]["Time"]
             password = str(password[0]["Password"])
             time_started = time_started[0]["Time"]
             display = class_password + password
@@ -54,13 +55,13 @@ def index():
                 attendance = "Absent"
                 return render_template("index.html", password = display, attendance = attendance)
             elif check1(6, 10, user, display) == 2:
-                if round(int(time_sent) - int(time_started)) < 5:
+                if round(int(time_sent) - int(time_started)) < 10 and round(int(time_sent) - int(class_time)) < 10:
                     attendance = "Present"
                 else:
                     attendance = "Absent"
                 return render_template("index.html", password = display, attendance = attendance)
             else:
-                if round(int(time_sent) - int(time_started)) < 5:
+                if round(int(time_sent) - int(time_started)) < 10 and round(int(time_sent) - int(class_time)) < 10:
                     attendance = "Keep Trying"
                 else:
                     attendance = "Absent"
