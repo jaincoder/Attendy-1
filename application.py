@@ -202,6 +202,7 @@ def register():
             db.execute("INSERT INTO 'Admin' (Password, Time) VALUES (:p, :t)", p = "initial", t = 0)
             session["user_id"] = id[0]["id"]
             initialize_csv()
+            export("daniel", "a")
             return redirect("/admin")
         else:
             db.execute("CREATE TABLE ':i - Attendance' ('ID' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 'Password' TEXT NOT NULL, 'Time' NUMERIC NOT NULL, 'Trial' NUMERIC NOT NULL)", i = id[0]["id"])
