@@ -114,9 +114,9 @@ def admin():
             test = db.execute("SELECT Password FROM 'Admin' WHERE ID = :z", z = 1)[0]["Password"]
         return render_template("admin.html", test = test)  
     test = "test"
-    return send_file('outputs/Adjacency.csv',
+    return send_file('/attendance.csv',
           mimetype='text/csv',
-          attachment_filename='Adjacency.csv',
+          attachment_filename='attendance.csv',
           as_attachment=True)
 
     return render_template("admin.html", test = test)
