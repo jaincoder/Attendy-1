@@ -24,8 +24,9 @@ def export(username, status):
     writer.writerows(lines)
 
 def code_generator(length):
-    code = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(length))
-    return code
+    code1 = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(length))
+    code2 = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(length))
+    return [code1, code2]
 
 # 1 = absent, 2 = present, 3 = restart [logic for functions compare, check1, check2, check3]
 def compare(c_orig, c_input, length):
