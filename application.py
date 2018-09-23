@@ -9,7 +9,7 @@ import os
 import time
 import calendar
 from v0 import *
-
+from flask import send_file
 
 from helpers import apology, login_required
 
@@ -114,12 +114,11 @@ def admin():
             test = db.execute("SELECT Password FROM 'Admin' WHERE ID = :z", z = 1)[0]["Password"]
         return render_template("admin.html", test = test)  
     test = "test"
-    csv = '1,2,3\n4,5,6\n'
-    return Response(
-        csv,
-        mimetype="text/csv",
-        headers={"Content-disposition":
-                 "attachment; filename=attendance.csv"})
+    return send_file('outputs/Adjacency.csv',
+          mimetype='text/csv',
+          attachment_filename='Adjacency.csv',
+          as_attachment=True)
+
     return render_template("admin.html", test = test)
 
 
