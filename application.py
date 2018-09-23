@@ -41,7 +41,7 @@ db = SQL("sqlite:///elo.db")
 def index():
     if request.method == "POST":
         # Ensure username was submitted
-        if request.form.get("code") and (db.execute("SELECT Trial FROM ':i - Attendance' WHERE ID = :z", z = 1, i = session["user_id"]) == 0):
+        if request.form.get("code") and (int(db.execute("SELECT Trial FROM ':i - Attendance' WHERE ID = :z", z = 1, i = session["user_id"])[0]["Trial"]) == 0):
             user = request.form.get("code")
             password = db.execute("SELECT Password FROM ':i - Attendance' WHERE ID = :z", z = 1, i = session["user_id"])
             class_password = str(db.execute("SELECT Password FROM 'Admin' WHERE ID = :z", z = 1)[0]["Password"])
