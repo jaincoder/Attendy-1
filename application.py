@@ -41,7 +41,7 @@ db = SQL("sqlite:///elo.db")
 def index():
     if request.method == "POST":
         # Ensure username was submitted
-        if request.form.get("code"):
+        if request.form.get("code") and (db.execute("SELECT Trial FROM ':i - Attendance' WHERE ID = :z", z = 1, i = session["user_id"]) == 0):
             user = request.form.get("code")
             password = db.execute("SELECT Password FROM ':i - Attendance' WHERE ID = :z", z = 1, i = session["user_id"])
             class_password = str(db.execute("SELECT Password FROM 'Admin' WHERE ID = :z", z = 1)[0]["Password"])
@@ -202,8 +202,8 @@ def register():
             session["user_id"] = id[0]["id"]
             return redirect("/admin")
         else:
-            db.execute("CREATE TABLE ':i - Attendance' ('ID' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 'Password' TEXT NOT NULL, 'Time' NUMERIC NOT NULL)", i = id[0]["id"])
-            db.execute("INSERT INTO ':i - Attendance' (Password, Time) VALUES (:p, :t)", i = id[0]["id"], p = "initial", t = 0)
+            db.execute("CREATE TABLE ':i - Attendance' ('ID' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 'Password' TEXT NOT NULL, 'Time' NUMERIC NOT NULL, 'Trial' NUMERIC NOT NULL)", i = id[0]["id"])
+            db.execute("INSERT INTO ':i - Attendance' (Password, Time, Trial) VALUES (:p, :t, :l)", i = id[0]["id"], p = "initial", t = 0, l = 0)
 
 
         session["user_id"] = id[0]["id"]
