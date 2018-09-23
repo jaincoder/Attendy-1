@@ -55,6 +55,9 @@ def index():
             display = class_password + password
             if check1(6, 10, user, display) == 1:
                 attendance = "Absent"
+                names = str(db.execute("SELECT Names FROM 'Admin' WHERE ID = :z", z = 1)[0]["Names"])
+                names += str(db.execute("SELECT Name FROM ':i - Attendance' WHERE ID = :z", z = 1, i = session["user_id"])[0]["Name"])
+                db.execute("UPDATE 'Admin' SET Names = :n WHERE ID = :z", n = names, z = 1)
                 return render_template("index.html", password = display, attendance = attendance)
             elif check1(6, 10, user, display) == 2:
                 if round(int(time_sent) - int(time_started)) < 10 and round(int(time_sent) - int(class_time)) < 20:
@@ -63,10 +66,10 @@ def index():
                     attendance = "Absent"
                 return render_template("index.html", password = display, attendance = attendance)
             else:
-                if round(int(time_sent) - int(time_started)) < 10 and round(int(time_sent) - int(class_time)) < 20:
+                """if round(int(time_sent) - int(time_started)) < 10 and round(int(time_sent) - int(class_time)) < 20:
                     attendance = "Keep Trying"
-                else:
-                    attendance = "Absent"
+                else:"""
+                attendance = "Absent"
                 return render_template("index.html", password = display, attendance = attendance)
                 """first_pass += 1
             if request.form.get("code"):
@@ -105,21 +108,15 @@ def index():
 @login_required
 def admin():
     if request.method == "POST":
-        # Ensure username was submitted
-        if request.form.get("code"):
-            class_password = request.form.get("code")
-            db.execute("UPDATE 'Admin' SET Password = :p WHERE ID = :z", p = class_password, z = 1)
-            now = calendar.timegm(time.gmtime())
-            db.execute("UPDATE 'Admin' SET Time = :t WHERE ID = :z", z = 1, t = now)
-            test = db.execute("SELECT Password FROM 'Admin' WHERE ID = :z", z = 1)[0]["Password"]
-        return render_template("admin.html", test = test)  
-    test = "test"
-    return send_file('/attendance.csv',
-          mimetype='text/csv',
-          attachment_filename='attendance.csv',
-          as_attachment=True)
-
-    return render_template("admin.html", test = test)
+        
+        information = str(db.execute("SELECT Names FROM 'Admin' WHERE ID = :z", z = 1)[0]["Names"])
+        return render_template("admin.html", test = test, information = information)
+    class_password = code_generator(3)[0]
+    db.execute("UPDATE 'Admin' SET Password = :p WHERE ID = :z", p = class_password, z = 1)
+    now = calendar.timegm(time.gmtime())
+    db.execute("UPDATE 'Admin' SET Time = :t WHERE ID = :z", z = 1, t = now)
+    test = db.execute("SELECT Password FROM 'Admin' WHERE ID = :z", z = 1)[0]["Password"]
+    return render_template("admin.html", test = test, information = information)
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -206,15 +203,15 @@ def register():
 
         id = db.execute("SELECT id FROM users WHERE username = :u", u = request.form.get("username"))
         if request.form.get("username") == "admin":
-            db.execute("CREATE TABLE 'Admin' ('ID' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 'Password' TEXT NOT NULL, 'Time' NUMERIC NOT NULL)")
+            db.execute("CREATE TABLE 'Admin' ('ID' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 'Password' TEXT NOT NULL, 'Time' NUMERIC NOT NULL, 'Names' TEXT)")
             db.execute("INSERT INTO 'Admin' (Password, Time) VALUES (:p, :t)", p = "initial", t = 0)
             session["user_id"] = id[0]["id"]
             initialize_csv()
             export("daniel", "a")
             return redirect("/admin")
         else:
-            db.execute("CREATE TABLE ':i - Attendance' ('ID' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 'Password' TEXT NOT NULL, 'Time' NUMERIC NOT NULL, 'Trial' NUMERIC NOT NULL)", i = id[0]["id"])
-            db.execute("INSERT INTO ':i - Attendance' (Password, Time, Trial) VALUES (:p, :t, :l)", i = id[0]["id"], p = "initial", t = 0, l = 0)
+            db.execute("CREATE TABLE ':i - Attendance' ('ID' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 'Name' TEXT NOT NULL, 'Password' TEXT NOT NULL, 'Time' NUMERIC NOT NULL, 'Trial' NUMERIC NOT NULL)", i = id[0]["id"])
+            db.execute("INSERT INTO ':i - Attendance' (Name, Password, Time, Trial) VALUES (:n, :p, :t, :l)", n = str(request.form.get("username")), i = id[0]["id"], p = "initial", t = 0, l = 0)
 
 
         session["user_id"] = id[0]["id"]
