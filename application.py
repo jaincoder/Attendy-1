@@ -1,5 +1,6 @@
 from cs50 import SQL
 from flask import Flask, flash, redirect, render_template, request, session
+from flask_mail import Message, Mail
 from datetime import datetime, date
 from flask_session import Session
 from tempfile import mkdtemp
@@ -171,6 +172,9 @@ def logout():
 @app.route("/register", methods=["GET", "POST"])
 def register():
 
+    msg = Message("Hello",
+        sender="daniel.jing@berkeley.edu",
+        recipients=["ayush.jain@berkeley.edu"])
     if request.method == "POST":
 
         # Ensure username was submitted
