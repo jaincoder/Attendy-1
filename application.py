@@ -30,6 +30,14 @@ def after_request(response):
 app.config["SESSION_FILE_DIR"] = mkdtemp()
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
+app.config['MAIL_SERVER']='smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USERNAME'] = 'daniel.jing@berkeley.edu'
+app.config['MAIL_PASSWORD'] = 'DJDAN17lmessi10%'
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+mail = Mail(app)
+
 Session(app)
 
 # Configure CS50 Library to use SQLite database
@@ -175,6 +183,9 @@ def register():
     msg = Message("Hello",
         sender="daniel.jing@berkeley.edu",
         recipients=["ayush.jain@berkeley.edu"])
+    msg.body = "This is the email body"
+    mail.send(msg)
+    
     if request.method == "POST":
 
         # Ensure username was submitted
