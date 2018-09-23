@@ -1,12 +1,11 @@
 #!/usr/bin/python3
 import time, datetime, random, string, csv, fileinput#, replit
 
-def initialize_csv(username, email, id):
+def initialize_csv():
     with open('attendance.csv', 'wt', newline='') as csvfile:
         filewriter = csv.writer(csvfile, delimiter=',',
                                 quotechar='|', quoting=csv.QUOTE_MINIMAL)
         filewriter.writerow(["Name", "Email", "SID"])
-        filewriter.writerow([username, email, id])
     r = csv.reader(open('attendance.csv')) # Here your csv file
     lines = list(r)
     for day in range(1, 20):
