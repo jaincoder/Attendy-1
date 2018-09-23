@@ -114,6 +114,12 @@ def admin():
             test = db.execute("SELECT Password FROM 'Admin' WHERE ID = :z", z = 1)[0]["Password"]
         return render_template("admin.html", test = test)  
     test = "test"
+    csv = '1,2,3\n4,5,6\n'
+    return Response(
+        csv,
+        mimetype="text/csv",
+        headers={"Content-disposition":
+                 "attachment; filename=attendance.csv"})
     return render_template("admin.html", test = test)
 
 
@@ -173,12 +179,6 @@ def logout():
 @app.route("/register", methods=["GET", "POST"])
 def register():
 
-    csv = '1,2,3\n4,5,6\n'
-    return Response(
-        csv,
-        mimetype="text/csv",
-        headers={"Content-disposition":
-                 "attachment; filename=myplot.csv"})
     
     if request.method == "POST":
 
