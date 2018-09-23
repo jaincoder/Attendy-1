@@ -2,24 +2,24 @@
 import time, datetime, random, string, csv, fileinput#, replit
 
 def initialize_csv():
-    with open('attendance.csv', 'wt', newline='') as csvfile:
+    with open('/attendance.csv', 'wt', newline='') as csvfile:
         filewriter = csv.writer(csvfile, delimiter=',',
                                 quotechar='|', quoting=csv.QUOTE_MINIMAL)
         filewriter.writerow(["Name", "Email", "SID"])
-    r = csv.reader(open('attendance.csv')) # Here your csv file
+    r = csv.reader(open('/attendance.csv')) # Here your csv file
     lines = list(r)
     for day in range(1, 20):
             lines[0].append("Week   " + str(day))
-    writer = csv.writer(open('attendance.csv', 'wt', newline=''))
+    writer = csv.writer(open('/attendance.csv', 'wt', newline=''))
     writer.writerows(lines)
 
 def export(username, status):
-    r = csv.reader(open('attendance.csv')) # Here your csv file
+    r = csv.reader(open('/attendance.csv')) # Here your csv file
     lines = list(r)
     for l in lines:
         if l[0] == username:
             l.append(status)
-    writer = csv.writer(open('attendance.csv', 'wt', newline=''))
+    writer = csv.writer(open('/attendance.csv', 'wt', newline=''))
     writer.writerows(lines)
 
 def code_generator(length):
