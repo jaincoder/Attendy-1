@@ -116,6 +116,7 @@ def admin():
     now = calendar.timegm(time.gmtime())
     db.execute("UPDATE 'Admin' SET Time = :t WHERE ID = :z", z = 1, t = now)
     test = db.execute("SELECT Password FROM 'Admin' WHERE ID = :z", z = 1)[0]["Password"]
+    information = ""
     return render_template("admin.html", test = test, information = information)
 
 
@@ -203,11 +204,9 @@ def register():
 
         id = db.execute("SELECT id FROM users WHERE username = :u", u = request.form.get("username"))
         if request.form.get("username") == "admin":
-            db.execute("CREATE TABLE 'Admin' ('ID' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 'Password' TEXT NOT NULL, 'Time' NUMERIC NOT NULL, 'Names' TEXT)")
-            db.execute("INSERT INTO 'Admin' (Password, Time) VALUES (:p, :t)", p = "initial", t = 0)
+            db.execute("CREATE TABLE 'Admin' ('ID' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 'Password' TEXT NOT NULL, 'Time' NUMERIC NOT NULL, 'Names' TEXT NOT NULL)")
+            db.execute("INSERT INTO 'Admin' (Password, Time, Names) VALUES (:p, :t, :n)", p = "initial", t = 0, n = "")
             session["user_id"] = id[0]["id"]
-            initialize_csv()
-            export("daniel", "a")
             return redirect("/admin")
         else:
             db.execute("CREATE TABLE ':i - Attendance' ('ID' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 'Name' TEXT NOT NULL, 'Password' TEXT NOT NULL, 'Time' NUMERIC NOT NULL, 'Trial' NUMERIC NOT NULL)", i = id[0]["id"])
