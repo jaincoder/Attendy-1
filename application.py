@@ -55,13 +55,13 @@ def index():
                 attendance = "Absent"
                 return render_template("index.html", password = display, attendance = attendance)
             elif check1(6, 10, user, display) == 2:
-                if round(int(time_sent) - int(time_started)) < 10 and round(int(time_sent) - int(class_time)) < 10:
+                if round(int(time_sent) - int(time_started)) < 10 and round(int(time_sent) - int(class_time)) < 20:
                     attendance = "Present"
                 else:
                     attendance = "Absent"
                 return render_template("index.html", password = display, attendance = attendance)
             else:
-                if round(int(time_sent) - int(time_started)) < 10 and round(int(time_sent) - int(class_time)) < 10:
+                if round(int(time_sent) - int(time_started)) < 10 and round(int(time_sent) - int(class_time)) < 20:
                     attendance = "Keep Trying"
                 else:
                     attendance = "Absent"
