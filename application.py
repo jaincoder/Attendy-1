@@ -108,16 +108,16 @@ def index():
 @login_required
 def admin():
     if request.method == "POST":
+        class_password = code_generator(3)[0]
+        db.execute("UPDATE 'Admin' SET Password = :p WHERE ID = :z", p = class_password, z = 1)
+        now = calendar.timegm(time.gmtime())
+        db.execute("UPDATE 'Admin' SET Time = :t WHERE ID = :z", z = 1, t = now)
         test = db.execute("SELECT Password FROM 'Admin' WHERE ID = :z", z = 1)[0]["Password"]
+        db.execute("UPDATE 'Admin' SET Names = :n WHERE ID = :z", n = "", z = 1)
         information = str(db.execute("SELECT Names FROM 'Admin' WHERE ID = :z", z = 1)[0]["Names"])
         return render_template("admin.html", test = test, information = information)
-    class_password = code_generator(3)[0]
-    db.execute("UPDATE 'Admin' SET Password = :p WHERE ID = :z", p = class_password, z = 1)
-    now = calendar.timegm(time.gmtime())
-    db.execute("UPDATE 'Admin' SET Time = :t WHERE ID = :z", z = 1, t = now)
     test = db.execute("SELECT Password FROM 'Admin' WHERE ID = :z", z = 1)[0]["Password"]
-    db.execute("UPDATE 'Admin' SET Names = :n WHERE ID = :z", n = "", z = 1)
-    information = ""
+    information = str(db.execute("SELECT Names FROM 'Admin' WHERE ID = :z", z = 1)[0]["Names"])
     return render_template("admin.html", test = test, information = information)
 
 
