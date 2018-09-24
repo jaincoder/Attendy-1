@@ -35,11 +35,9 @@ Session(app)
 
 # Configure CS50 Library to use SQLite database
 db = SQL("sqlite:///elo.db")
-'''
-@app.route("/get_my_ip", methods=["GET"])
-def get_my_ip():
-    return jsonify({'ip': request.remote_addr}), 200
-'''
+
+
+
 @app.route("/", methods=["GET", "POST"])
 @login_required
 def index():
