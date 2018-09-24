@@ -166,7 +166,7 @@ def logout():
     """Log user out"""
 
     # Forget any user_id
-    session.clear()
+    session.clear() 
 
     # Redirect user to login form
     return redirect("/")
