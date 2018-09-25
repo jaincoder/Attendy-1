@@ -88,6 +88,7 @@ def index():
                 db.execute("UPDATE ':i - Attendance' SET Trial = :t WHERE ID = :z", z = 1, i = session["user_id"], t = trial)
                 display = code_generator(3)[0]
                 db.execute("UPDATE ':i - Attendance' SET Password = :p WHERE ID = :z", i = session["user_id"], p = display, z = 1)
+                display = class_password + password
                 return render_template("index.html", password = display, attendance = attendance)
             else:
                 attendance = "Absent"
