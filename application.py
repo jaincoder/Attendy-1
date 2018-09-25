@@ -43,7 +43,7 @@ db = SQL("sqlite:///elo.db")
 def index():
     if request.method == "POST":
         # Ensure username was submitted
-        trial = int(db.execute("SELECT Trial FROM ':i - Attendance' WHERE ID = :z", z = 1, i = session["user_id"])[0]["Trial"]
+        trial = int(db.execute("SELECT Trial FROM ':i - Attendance' WHERE ID = :z", z = 1, i = session["user_id"])[0]["Trial"])
         if request.form.get("code") and trial == 0:
             user = request.form.get("code")
             password = str(db.execute("SELECT Password FROM ':i - Attendance' WHERE ID = :z", z = 1, i = session["user_id"])[0]["Password"])
