@@ -1,7 +1,7 @@
 from cs50 import SQL
 from flask import Flask, flash, redirect, render_template, request, session
 import numpy
-import flask-mail
+import flask_mail
 from datetime import datetime, date
 from flask_session import Session
 from tempfile import mkdtemp
