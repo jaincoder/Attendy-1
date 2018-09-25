@@ -93,7 +93,7 @@ def index():
                 attendance = "Absent"
                 db.execute("UPDATE ':i - Attendance' SET Trial = :t WHERE ID = :z", z = 1, i = session["user_id"], t = 0)
                 return render_template("index.html", password = display, attendance = attendance)
-        if request.form.get("code") and trial == 3:
+        if request.form.get("code") and trial == 2:
             user = request.form.get("code")
             password = str(db.execute("SELECT Password FROM ':i - Attendance' WHERE ID = :z", z = 1, i = session["user_id"])[0]["Password"])
             class_password = str(db.execute("SELECT Password FROM 'Admin' WHERE ID = :z", z = 1)[0]["Password"])
