@@ -16,7 +16,7 @@ from flask import send_file
 from helpers import apology, login_required
 
 # Configure application
-mail = Mail()
+
 app = Flask(__name__)
 
 # Ensure responses aren't cached
@@ -34,13 +34,14 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 app.config["MAIL_SERVER"] = 'smtp.gmail.com'
 app.config["MAIL_PORT"] = 465
+app.config["MAIL_USE_TSL"] = True
 app.config["MAIL_USE_SSL"] = True
 app.config["MAIL_USERNAME"] = 'ajain6922@gmail.com',
 app.config["MAIL_PASSWORD"] = 'awesome605',
 
 Session(app)
 
-mail.init_app(app)
+mail = Mail(app)
 
 # Configure CS50 Library to use SQLite database
 db = SQL("sqlite:///elo.db")
