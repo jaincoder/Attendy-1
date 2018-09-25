@@ -56,9 +56,9 @@ def index():
                 attendance = "Absent"
                 names = str(db.execute("SELECT Names FROM 'Admin' WHERE ID = :z", z = 1)[0]["Names"])
                 names_list = names.split(",")
-                names += [(db.execute("SELECT Name FROM ':i - Attendance' WHERE ID = :z", z = 1, i = session["user_id"])[0]["Name"])]
-                names = list(set(names))
-                names = ", ".join(str(name) for name in names)
+                names_list += [(db.execute("SELECT Name FROM ':i - Attendance' WHERE ID = :z", z = 1, i = session["user_id"])[0]["Name"])]
+                names_list = list(set(names_list))
+                names = ", ".join(str(name) for name in names_list)
                 db.execute("UPDATE 'Admin' SET Names = :n WHERE ID = :z", n = names, z = 1)
                 return render_template("index.html", password = display, attendance = attendance)
             elif check1(6, 10, user, display) == 2:
