@@ -132,8 +132,8 @@ def index():
     
     if round(int(now) - int(class_time)) > 20:
         return render_template("closed.html")
-    a = numpy.asarray([ [1,2,3], [4,5,6], [7,8,9] ])
-    numpy.savetxt("foo.csv", a, delimiter=",")
+    """a = numpy.asarray([ [1,2,3], [4,5,6], [7,8,9] ])
+    numpy.savetxt("foo.csv", a, delimiter=",")"""
     
     msg = Message("Hello",
                   sender="ajain6922@gmail.com",
@@ -142,9 +142,9 @@ def index():
     msg.html = "<b>testing</b>"
     mail.send(msg)
     
-    with app.open_resource("foo.csv") as fp:
+    """with app.open_resource("foo.csv") as fp:
         msg.attach("foo.csv", "text/csv", fp.read())
-    mail.send(msg)
+    mail.send(msg)"""
     
     passwords = code_generator(3)
     password = passwords[0]
