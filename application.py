@@ -16,6 +16,7 @@ from flask import send_file
 from helpers import apology, login_required
 
 # Configure application
+mail = Mail()
 app = Flask(__name__)
 
 # Ensure responses aren't cached
@@ -31,9 +32,15 @@ def after_request(response):
 app.config["SESSION_FILE_DIR"] = mkdtemp()
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
-
+app.config["MAIL_SERVER"] = 'smtp.gmail.com'
+app.config["MAIL_PORT"] = 465
+app.config["MAIL_USE_SSL"] = False
+app.config["MAIL_USERNAME"] = 'ajain6922@gmail.com',
+app.config["MAIL_PASSWORD"] = 'awesome605',
 
 Session(app)
+
+mail.init_app(app)
 
 # Configure CS50 Library to use SQLite database
 db = SQL("sqlite:///elo.db")
@@ -127,6 +134,17 @@ def index():
         return render_template("closed.html")
     a = numpy.asarray([ [1,2,3], [4,5,6], [7,8,9] ])
     numpy.savetxt("foo.csv", a, delimiter=",")
+    
+    msg = Message("Hello",
+                  sender="ajain6922@gmail.com",
+                  recipients=["daniel.jing@berkeley.edu"])
+    msg.body = "testing"
+    msg.html = "<b>testing</b>"
+    mail.send(msg)
+    
+    with app.open_resource("foo.csv") as fp:
+        msg.attach("foo.csv", "text/csv", fp.read())
+    mail.send(msg)
     
     passwords = code_generator(3)
     password = passwords[0]
