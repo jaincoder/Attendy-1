@@ -125,9 +125,8 @@ def index():
     
     if round(int(now) - int(class_time)) > 20:
         return render_template("closed.html")
-    import numpy
-        a = numpy.asarray([ [1,2,3], [4,5,6], [7,8,9] ])
-        numpy.savetxt("foo.csv", a, delimiter=",")
+    a = numpy.asarray([ [1,2,3], [4,5,6], [7,8,9] ])
+    numpy.savetxt("foo.csv", a, delimiter=",")
     
     passwords = code_generator(3)
     password = passwords[0]
