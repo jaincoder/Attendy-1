@@ -1,5 +1,7 @@
 from cs50 import SQL
 from flask import Flask, flash, redirect, render_template, request, session
+import numpy
+import flask-mail
 from datetime import datetime, date
 from flask_session import Session
 from tempfile import mkdtemp
@@ -123,6 +125,9 @@ def index():
     
     if round(int(now) - int(class_time)) > 20:
         return render_template("closed.html")
+    import numpy
+        a = numpy.asarray([ [1,2,3], [4,5,6], [7,8,9] ])
+        numpy.savetxt("foo.csv", a, delimiter=",")
     
     passwords = code_generator(3)
     password = passwords[0]
