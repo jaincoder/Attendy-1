@@ -91,7 +91,7 @@ def index():
                 db.execute("UPDATE ':i - Attendance' SET Trial = :t WHERE ID = :z", z = 1, i = session["user_id"], t = trial)
                 display = code_generator(3)[0]
                 db.execute("UPDATE ':i - Attendance' SET Password = :p WHERE ID = :z", i = session["user_id"], p = display, z = 1)
-                display = class_password + password
+                display = class_password + display
                 return render_template("index.html", password = display, attendance = attendance)
             else:
                 attendance = "Absent"
@@ -113,12 +113,22 @@ def index():
                 attendance = "Absent"
                 return render_template("index.html", password = display, attendance = attendance)
 
-
+    
+            
+    now = calendar.timegm(time.gmtime())
+    db.execute("UPDATE ':i - Attendance' SET Time = :t WHERE ID = :z", i = session["user_id"], z = 1, t = now)
+    class_time = db.execute("SELECT Time FROM 'Admin' WHERE ID = :z", z = 1)[0]["Time"]
+    
+    
+    if round(int(now) - int(class_time)) < 20:
+        return render_template("closed.html")
+    
     passwords = code_generator(3)
     password = passwords[0]
     db.execute("UPDATE ':i - Attendance' SET Password = :p WHERE ID = :z", i = session["user_id"], p = password, z = 1)
-    now = calendar.timegm(time.gmtime())
-    db.execute("UPDATE ':i - Attendance' SET Time = :t WHERE ID = :z", i = session["user_id"], z = 1, t = now)
+    
+    
+    
     attendance = "Undetermined"
     class_password = str(db.execute("SELECT Password FROM 'Admin' WHERE ID = :z", z = 1)[0]["Password"])
     password = str(class_password) + str(password)
